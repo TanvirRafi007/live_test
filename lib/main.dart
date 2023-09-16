@@ -9,7 +9,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-
                   home: HomeScreen(),
       title: 'Shopping List App',
     );
@@ -22,6 +21,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('My Shopping List'),
+        centerTitle: true,
         actions: [
           IconButton(
             icon: Icon(Icons.shopping_cart),
