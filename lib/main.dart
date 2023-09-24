@@ -8,52 +8,87 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-                  home: HomeScreen(),
-      title: 'Shopping List App',
+      home: CounterScreen(),
     );
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class CounterScreen extends StatefulWidget {
+  @override
+  _CounterScreenState createState() => _CounterScreenState();
+}
+
+class _CounterScreenState extends State<CounterScreen> {
+  int count = 0;
+
+  void _incrementCount() {
+    setState(() {
+      count++;
+      if (count >= 5) {
+        _showDialog();
+      }
+    });
+  }
+
+  void _decrementCount() {
+    setState(() {
+      if (count > 0) {
+        count--;
+      }
+    });
+  }
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Button pressed $count times"),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Shopping List'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.shopping_cart),
-            onPressed: () {
-            },
-          ),
-        ],
+        title: Text("Counter App"),
       ),
-      body: ListView(
-        children: [
-          ShoppingItemTile(icon: Icons.shopping_basket, name: 'Apples'),
-          ShoppingItemTile(icon: Icons.shopping_basket, name: 'Bananas'),
-          ShoppingItemTile(icon: Icons.shopping_basket, name: 'Milk'),
-          ShoppingItemTile(icon: Icons.shopping_basket, name: 'Bread'),
-          ShoppingItemTile(icon: Icons.shopping_basket, name: 'Eggs'),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "Count: $count",
+              style: TextStyle(fontSize: 24),
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ElevatedButton(
+                  onPressed: _incrementCount,
+                  child: Text("+"),
+                ),
+                SizedBox(width: 20),
+                ElevatedButton(
+                  onPressed: _decrementCount,
+                  child: Text("-"),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
-    );
-  }
-}
-
-class ShoppingItemTile extends StatelessWidget {
-  final IconData icon;
-  final String name;
-
-  ShoppingItemTile({required this.icon, required this.name});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon),
-      title: Text(name),
     );
   }
 }
